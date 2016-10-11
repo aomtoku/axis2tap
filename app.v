@@ -19,7 +19,6 @@ module app (
 );
 
 
-.
 /*
  * Bridge
  */
@@ -28,7 +27,7 @@ assign m_axis_tx_tvalid = s_axis_rx_tvalid;
 assign m_axis_tx_tdata = s_axis_rx_tdata;
 assign m_axis_tx_tkeep = s_axis_rx_tkeep;
 assign m_axis_tx_tlast = s_axis_rx_tlast;
-assign m_axis_tx_tuser = s_axis_rx_tuser;
+assign m_axis_tx_tuser = 1'b0;
 
 
 

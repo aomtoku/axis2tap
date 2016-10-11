@@ -47,8 +47,8 @@
 #define tx_tlast    sim->m_axis_tx_tlast
 #define tx_tvalid   sim->m_axis_tx_tvalid
 
-#define AXIS_DWIDTH 	8
-
+#define AXIS_DWIDTH_BITS     64
+#define AXIS_DWIDTH 	     AXIS_DWIDTH_BITS/8
 
 static uint64_t t = 0;
 
@@ -152,11 +152,11 @@ int tap2axis(Vtestbench *sim, VerilatedVcdC *tfp)
 
 	if (diff >= AXIS_DWIDTH) {
 		for (i = 0; i < 8; i++) 
-			*(p-i) = ibuf.buf[ibuf.num+i];
+			*(p+7-i) = ibuf.buf[ibuf.num+i];
 		rx_tkeep = 0xff;
 	} else {
 		for (i = 0; i < diff; i++) 
-			*(p-i) = ibuf.buf[ibuf.num+i];
+			*(p+7-i) = ibuf.buf[ibuf.num+i];
 		rx_tkeep = ((0x0000ffff << diff) & 0xffff0000) >> 16;
 	}
 
@@ -185,7 +185,7 @@ int axis2tap(Vtestbench *sim, int tap_fd)
 		size = numofbits(tx_tkeep);
 		obuf.len += size;
 		for (i=0; i<size; i++)
-			obuf.buf[obuf.num++] = *(p-i); 
+			obuf.buf[obuf.num++] = *(p+7-i); 
 	}
 
 	if (tx_tvalid & tx_tlast) {

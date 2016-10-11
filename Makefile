@@ -7,14 +7,13 @@ RTL_SRC := app.v
 
 WFLAGS = -Wall -Wno-PINCONNECTEMPTY -Wno-UNUSED -Wno-UNDRIVEN -Wno-SYNCASYNCNET
 
-all: sim
+all: test
 
 lint: $(SIM_SRC) $(RTL_SRC)
 	verilator $(WFLAGS) -Wall --lint-only --cc --top-module $(sim_top) -sv $(SIM_SRC) $(RTL_SRC)
 
 sim:
 	sudo ./obj_dir/Vtestbench &
-	sudo ifconfig tap0 192.168.100.122 up
 
 test:
 	verilator $(WFLAGS) -DSIMULATION --cc --trace --top-module testbench -sv $(SIM_SRC) $(RTL_SRC) --exe $(VERILATOR_SRC)
